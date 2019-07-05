@@ -1,0 +1,45 @@
+{
+    "StackName": "networking",
+    "TemplateBody": "",
+    "TemplateURL": "",
+    "Parameters": [
+        {
+            "ParameterKey": "",
+            "ParameterValue": "",
+            "UsePreviousValue": true,
+            "ResolvedValue": ""
+        }
+    ],
+    "DisableRollback": true,
+    "RollbackConfiguration": {
+        "RollbackTriggers": [
+            {
+                "Arn": "",
+                "Type": ""
+            }
+        ],
+        "MonitoringTimeInMinutes": 0
+    },
+    "TimeoutInMinutes": 0,
+    "NotificationARNs": [
+        ""
+    ],
+    "Capabilities": [
+        "CAPABILITY_NAMED_IAM"
+    ],
+    "ResourceTypes": [
+        ""
+    ],
+    "RoleARN": "",
+    "OnFailure": "ROLLBACK",
+    "StackPolicyBody": "",
+    "StackPolicyURL": "",
+    "Tags": [
+        {
+            "Key": "",
+            "Value": ""
+        }
+    ],
+    "ClientRequestToken": "",
+    "EnableTerminationProtection": true
+}
