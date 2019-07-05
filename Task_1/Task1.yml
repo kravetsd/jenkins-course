@@ -66,29 +66,29 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref MyInternetGateway
   
-  SubnetA:
+  MySubnetA:
     Type: AWS::EC2::Subnet
     Properties:
       AvailabilityZone: us-east-1a
       VpcId: !Ref MyVpc
       MapPublicIpOnLaunch: true
-      CidrBlock: !Ref SubnetA
+      CidrBlock: !Ref MyCidrA
   
-  SubnetB:
+  MySubnetB:
     Type: AWS::EC2::Subnet
     Properties:
       AvailabilityZone: us-east-1b
       VpcId: !Ref MyVpc
-      CidrBlock: !Ref SubnetB
-      MapPublicIpOnLaunch: true    
+      CidrBlock: !Ref MyCidrB
+      MapPublicIpOnLaunch: true     
 
 Outputs:
   MyVpcIdOutput:
     Description: MyVpc ID
     Value: !Ref MyVpc
-  MyCidrAIdOutput:
-    Description: MyCidrA
-    Value: !Ref MyCidrA
-  MyCidrBIdOutput:
-    Description: MyCidrB
-    Value: !Ref MyCidrB
+  MySubnetAIdOutput:
+    Description: My Subnet A ID
+    Value: !Ref MySubnetA
+  MySubnetBIdOutput:
+    Description: My Subnet B ID
+    Value: !Ref MySubnetB
