@@ -21,6 +21,18 @@ Parameters:
     Description: CIDR block for VPC 
     Type: String
     Default: 10.10.0.0/16
+  MyCidrA:
+    Description: CIDR block for subnet A 
+    Type: String
+    Default: 10.10.1.0/16  
+
+  MyCidrB:
+    Description: CIDR block for subnet B 
+    Type: String
+    Default: 10.10.2.0/16
+
+
+
 
 Resources:
   MyVpc:
@@ -33,7 +45,50 @@ Resources:
         - Key: Name
           Value: mp2019
 
+  MyRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MyVpc
+
+  MyInternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref MyVpc
+      InternetGatewayId: !Ref MyInternetGateway
+  
+  MyDefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MyRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref MyInternetGateway
+  
+  SubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: us-east-1a
+      VpcId: !Ref MyVpc
+      MapPublicIpOnLaunch: true
+      CidrBlock: !Ref SubnetA
+  
+  SubnetB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: us-east-1a
+      VpcId: !Ref MyVpc
+      CidrBlock: !Ref SubnetB
+      MapPublicIpOnLaunch: true    
+
 Outputs:
-  OutputName:
+  MyVpcIdOutput:
     Description: MyVpc ID
     Value: !Ref MyVpc
+  MyCidrAIdOutput:
+    Description: MyCidrA
+    Value: !Ref MyCidrA
+  MyCidrBIdOutput:
+    Description: MyCidrB
+    Value: !Ref MyCidrB
