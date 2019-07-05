@@ -1,7 +1,7 @@
 {
     "StackName": "networking",
     "TemplateBody": "",
-    "TemplateURL": "",
+    "TemplateURL": "s3://kravets-mp2019-cft/Task1/Task1.yml",
     "Parameters": [
         {
             "ParameterKey": "",
