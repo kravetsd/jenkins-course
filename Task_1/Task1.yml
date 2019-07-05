@@ -77,7 +77,7 @@ Resources:
   SubnetB:
     Type: AWS::EC2::Subnet
     Properties:
-      AvailabilityZone: us-east-1a
+      AvailabilityZone: us-east-1b
       VpcId: !Ref MyVpc
       CidrBlock: !Ref SubnetB
       MapPublicIpOnLaunch: true    
