@@ -24,12 +24,12 @@ Parameters:
   MyCidrA:
     Description: CIDR block for subnet A 
     Type: String
-    Default: 10.10.1.0/16  
+    Default: 10.10.1.0/24  
 
   MyCidrB:
     Description: CIDR block for subnet B 
     Type: String
-    Default: 10.10.2.0/16
+    Default: 10.10.2.0/24
 
 
 
