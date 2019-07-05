@@ -1,0 +1,77 @@
+
+myCIDR_VPC:
+  Description: CIDR block for VPC 
+  Type: String
+  Default: 10.10.0.0/16
+
+myCIDR_A:
+  Description: CIDR block for subnet A 
+  Type: String
+  Default: 10.10.1.0/16
+
+myCIDR_B:
+  Description: CIDR block for subnet B 
+  Type: String
+  Default: 10.10.2.0/16
+
+myVPC:
+  Type: AWS::EC2::VPC
+  Properties:
+    CidrBlock: --.--.--.--/--
+    EnableDnsHostnames: true
+    EnableDnsSupport: true
+    Tags:
+      - Key: Name
+        Value: mp2019
+
+
+
+myRT:
+  Type: AWS::EC2::RouteTable
+  Properties:
+    VpcId: vpc-id
+    Tags:
+      - Key: keyname
+        Value: value
+
+
+routeName:
+  Type: AWS::EC2::Route
+  Properties:
+    RouteTableId: rtable-id
+    DestinationCidrBlock: --.--.--.--/--
+    GatewayId: gataway-id
+
+
+subnetName:
+  Type: AWS::EC2::Subnet
+  Properties:
+    AvailabilityZone: zone-id
+    VpcId: vpc-id
+    CidrBlock: --.--.--.--/--
+    Tags:
+      - Key: keyname
+        Value: value
+
+subnetName:
+  Type: AWS::EC2::Subnet
+  Properties:
+    AvailabilityZone: zone-id
+    VpcId: vpc-id
+    CidrBlock: --.--.--.--/--
+    Tags:
+      - Key: keyname
+        Value: value        
+
+
+igwName:
+  Type: AWS::EC2::InternetGateway
+  Properties:
+    Tags:
+      - Key: keyname
+        Value: value
+AttachGateway:
+  Type: AWS::EC2::VPCGatewayAttachment
+  Properties:
+    VpcId: vpc-id
+    InternetGatewayId: !Ref igwName
