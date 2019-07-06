@@ -1,0 +1,86 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-  
+  >- Develop a CloudFormation template called "security_groups" that includes the following AWS networking components:
+  >- - "Admin" (allowing all incoming connections from your IP address and the IP address of Karaganda EPAM office);
+  >- - "ELB" (allowing incoming HTTP connections from anywhere);
+  >- - "EC2" (allowing incoming HTTP connections from members of "ELB" security group);
+  >- - "RDS" (allowing incoming MySQL connections from members of "EC2" security group).
+  >-
+  >- The template must have the following input parameter:
+  >- VPC ID.
+  >-
+  >- The template must have the following outputs:
+  >- - "Admin" security group ID;
+  >- - "ELB" security group ID;
+  >- - "EC2" security group ID;
+  >- - "RDS" security group ID.
+  
+
+Parameters:
+MyVpcId:
+  Description: VPC id 
+  Type: String
+  Default: !ImportValue MyVpcIdOutput
+
+
+
+Resources:
+  MyAdminSg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: "Admin" 
+      GroupDescription: "allowing all incoming connections from your IP address and the IP address of Karaganda EPAM office"
+      VpcId: !Ref MyVpcId
+      SecurityGroupIngress:
+        - Security Group Rule
+      SecurityGroupEgress:
+        - Security Group Rule
+
+  MyElbSg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: "ELB"
+      GroupDescription: "allowing incoming HTTP connections from anywhere"
+      VpcId: !Ref MyVpcId
+      SecurityGroupIngress:
+        - Security Group Rule
+      SecurityGroupEgress:
+        - Security Group Rule
+
+  MyEc2Sg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: "EC2"
+      GroupDescription: "allowing incoming HTTP connections from members of "ELB" security group"
+      VpcId: !Ref MyVpcId
+      SecurityGroupIngress: 
+        - Security Group Rule
+      SecurityGroupEgress:
+        - Security Group Rule
+
+
+  MyRdsSg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: "RDS"
+      GroupDescription: allowing incoming MySQL connections from members of "EC2" security group"
+      VpcId: !Ref MyVpcId
+      SecurityGroupIngress:
+        - Security Group Rule
+      SecurityGroupEgress:
+        - Security Group Rule
+
+
+Outputs:
+  OutputName:
+    Description: OutputDescription
+    Value: OutputValue
+  OutputName:
+    Description: OutputDescription
+    Value: OutputValue
+  OutputName:
+    Description: OutputDescription
+    Value: OutputValue
+  OutputName:
+    Description: OutputDescription
+    Value: OutputValue            
