@@ -90,14 +90,14 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: "CFT_EC2"
-      GroupDescription: "allowing incoming HTTP connections from members of "ELB" security group"
+      GroupDescription: "allowing incoming HTTP connections from members of ELB security group"
       VpcId: !Ref MyVpcId
   
   MyRdsSg:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: "CFT_RDS"
-      GroupDescription: allowing incoming MySQL connections from members of "EC2" security group"
+      GroupDescription: allowing incoming MySQL connections from members of EC2 security group"
       VpcId: !Ref MyVpcId
   
   
@@ -113,4 +113,4 @@ Outputs:
     Value: !Ref MyEc2Sg
   MyRdsSgOutput:
     Description: MyRdsSg
-    Value: !Ref MyRdsSg           
+    Value: !Ref MyRdsSg
