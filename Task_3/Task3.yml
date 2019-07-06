@@ -82,7 +82,7 @@ Resources:
       DBParameterGroupName: !Ref MyRdsDbParameterGroup
       DBSubnetGroupName: !Ref MyRdsDbSubnetGroup
       Engine: mysql
-      EngineVersion: "MySQL 5.7" 
+      EngineVersion: "5.7" 
       MasterUsername: !Ref MyRdsDatabaseUser
       MasterUserPassword: !Ref MyRdsDatabasePassword
       MultiAZ: false
