@@ -78,7 +78,6 @@ Resources:
     Properties:
       AllocatedStorage: "8"
       DBInstanceClass: !Ref MyRdsInstanceClass
-      AvailabilityZone: 
       DBName: "MyCftDb"
       DBParameterGroupName: !Ref MyRdsDbParameterGroup
       DBSubnetGroupName: !Ref MyRdsDbSubnetGroup
