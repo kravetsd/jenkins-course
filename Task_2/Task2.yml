@@ -17,10 +17,10 @@ Description: >-
   
 
 Parameters:
-MyVpcId:
-  Description: VPC id 
-  Type: String
-  Default: !ImportValue MyVpcIdOutput
+  MyVpcId:
+    Description: VPC id 
+    Type: String
+    Default: !ImportValue MyVpcIdOutput
 
 
 
