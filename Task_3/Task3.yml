@@ -92,4 +92,4 @@ Resources:
 Outputs:
   MyRdsSgOutput:
     Description: "RDS endpoint address"
-    Value: !GetAtt MyRdsDbInstance.Ednpoint.Address
+    Value: !GetAtt MyRdsDbInstance.Endpoint.Address
