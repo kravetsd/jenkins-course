@@ -25,62 +25,92 @@ MyVpcId:
 
 
 Resources:
+  
   MyAdminSg:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: "Admin" 
+      GroupName: "CFT_Admin" 
       GroupDescription: "allowing all incoming connections from your IP address and the IP address of Karaganda EPAM office"
       VpcId: !Ref MyVpcId
-      SecurityGroupIngress:
-        - Security Group Rule
-      SecurityGroupEgress:
-        - Security Group Rule
+  
+  MyAdminSgIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: 
+      - CidrIp: 91.185.25.194/32
+        Description: "Epam Office Ip Range"
+        FromPort: 0
+        GroupId: !Ref MyAdminSg
+        IpProtocol: -1
+        ToPort: 65535
+      - CidrIp: 82.200.249.238/30
+        Description: "Home Ip Range"
+        FromPort: 0
+        GroupId: !Ref MyAdminSg
+        IpProtocol: -1
+        ToPort: 65535
+  
+  MyEc2SgIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: "Http from ELB"
+      FromPort: 80
+      GroupId: !Ref MyEc2Sg
+      IpProtocol: tcp
+      SourceSecurityGroupId: !Ref MyElbSg
+      ToPort: 80
+
+
+
+  MyRdsSgIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: "MySql connections from EC2"
+      FromPort: 3306
+      GroupId: !Ref MyRdsSg
+      IpProtocol: tcp
+      SourceSecurityGroupId: !Ref MyEc2Sg
+      ToPort: 3306    
 
   MyElbSg:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: "ELB"
+      GroupName: "CFT_ELB"
       GroupDescription: "allowing incoming HTTP connections from anywhere"
       VpcId: !Ref MyVpcId
       SecurityGroupIngress:
-        - Security Group Rule
-      SecurityGroupEgress:
-        - Security Group Rule
-
+        - CidrIp: 0.0.0.0/0
+          Description: "HTTP From everywhere"
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+  
+  
+  
   MyEc2Sg:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: "EC2"
+      GroupName: "CFT_EC2"
       GroupDescription: "allowing incoming HTTP connections from members of "ELB" security group"
       VpcId: !Ref MyVpcId
-      SecurityGroupIngress: 
-        - Security Group Rule
-      SecurityGroupEgress:
-        - Security Group Rule
-
-
+  
   MyRdsSg:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: "RDS"
+      GroupName: "CFT_RDS"
       GroupDescription: allowing incoming MySQL connections from members of "EC2" security group"
       VpcId: !Ref MyVpcId
-      SecurityGroupIngress:
-        - Security Group Rule
-      SecurityGroupEgress:
-        - Security Group Rule
-
-
+  
+  
 Outputs:
-  OutputName:
-    Description: OutputDescription
-    Value: OutputValue
-  OutputName:
-    Description: OutputDescription
-    Value: OutputValue
-  OutputName:
-    Description: OutputDescription
-    Value: OutputValue
-  OutputName:
-    Description: OutputDescription
-    Value: OutputValue            
+  MyAdminSgOutput:
+    Description: MyAdminSg
+    Value: !Ref MyAdminSg
+  MyElbSgOutput:
+    Description: MyElbSg
+    Value: !Ref MyElbSg
+  MyEc2SgOutput:
+    Description: MyEc2Sg
+    Value: !Ref MyEc2Sg
+  MyRdsSgOutput:
+    Description: MyRdsSg
+    Value: !Ref MyRdsSg           
