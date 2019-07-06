@@ -29,7 +29,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: "CFT_Admin" 
-      GroupDescription: "allowing all incoming connections from your IP address and the IP address of Karaganda EPAM office"
+      GroupDescription: "Karaganda EPAM office"
       VpcId: !Ref MyVpcId
   
   MyAdminSgIngress1:
@@ -102,7 +102,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: "CFT_RDS"
-      GroupDescription: allowing incoming MySQL connections from members of EC2 security group"
+      GroupDescription: "MySQL connections from members of EC2 security group"
       VpcId: !Ref MyVpcId
   
   
