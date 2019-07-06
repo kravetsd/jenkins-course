@@ -32,21 +32,27 @@ Resources:
       GroupDescription: "allowing all incoming connections from your IP address and the IP address of Karaganda EPAM office"
       VpcId: !Ref MyVpcId
   
-  MyAdminSgIngress:
+  MyAdminSgIngress1:
     Type: AWS::EC2::SecurityGroupIngress
     Properties: 
-      - CidrIp: 91.185.25.194/32
-        Description: "Epam Office Ip Range"
-        FromPort: 0
-        GroupId: !Ref MyAdminSg
-        IpProtocol: -1
-        ToPort: 65535
-      - CidrIp: 82.200.249.238/30
-        Description: "Home Ip Range"
-        FromPort: 0
-        GroupId: !Ref MyAdminSg
-        IpProtocol: -1
-        ToPort: 65535
+      CidrIp: 91.185.25.194/32
+      Description: "Epam Office Ip Range"
+      FromPort: 0
+      GroupId: !Ref MyAdminSg
+      IpProtocol: -1
+      ToPort: 65535
+      
+      
+      
+  MyAdminSgIngress2:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: 
+      CidrIp: 82.200.249.238/30
+      Description: "Home Ip Range"
+      FromPort: 0
+      GroupId: !Ref MyAdminSg
+      IpProtocol: -1
+      ToPort: 65535
   
   MyEc2SgIngress:
     Type: AWS::EC2::SecurityGroupIngress
