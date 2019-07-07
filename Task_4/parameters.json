@@ -1,0 +1,18 @@
+[
+  {
+    "ParameterKey": "MyRdsSubnetIds",
+    "ParameterValue": "subnet-0c5317afe5b581898,subnet-004101d17617500ba"
+  },
+  {
+    "ParameterKey": "MyRdsSgIds",
+    "ParameterValue": "sg-021abf59da8f15b29,sg-0864439878d21605a"
+  },
+  {
+    "ParameterKey": "MyRdsDatabaseUser",
+    "ParameterValue": "dbuser"
+  },
+  {
+    "ParameterKey": "MyRdsDatabasePassword",
+    "ParameterValue": "dbpassword"
+  }
+]
