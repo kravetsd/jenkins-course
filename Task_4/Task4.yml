@@ -102,8 +102,74 @@ Parameters:
 
 Resources:
 
+  MyLaunchConfig:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
+      LaunchConfigurationName: MyLaunchConfig
+      ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AmazonLinux1]
+      InstanceType: !Ref MyEc2InstanceClass
+      KeyName: !Ref MyEc2KeyPair
+      SecurityGroups: !Ref MyEc2SgIds
+      UserData: 
+        Fn::Base64: 
+          !Join [
+            "",
+            [
+              "#!/bin/bash\n",
+              "yum -y install httpd php php-mysql\n",
+              "cat << EOF > /var/www/html/index.php\n",
+              "<?php\n",
+              "\\$servername = \"",
+              { "Ref": "MyRdsEndpointAddress" },
+              "\";\n",
+              "\\$username = \"",
+              { "Ref": "MyRdsDatabaseUser" },
+              "\";\n",
+              "\\$password = \"",
+              { "Ref": "MyRdsDatabasePassword" },
+              "\";\n",
+              "\\$hostname = gethostname();\n",
+              "\\$conn = new mysqli(\\$servername, \\$username, \\$password);\n",
+              "if (\\$conn->connect_error) {\n",
+              "  die(\"\\$hostname: connection failed (\" . \\$conn->connect_error . \")\");\n",
+              "}\n",
+              "echo \"\\$hostname: successfully connected to \\$servername\";\n",
+              "?>\n",
+              "EOF\n",
+              "systemctl start httpd\n",
+              "systemctl enable httpd\n"
+            ]
+          ]
+
+  MyAutoscalingGroup: 
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: Myasgmp2019
+      LaunchConfigurationName: !Ref MyLaunchConfig
+      LoadBalancerNames: !Ref MyElb
+      MaxSize: 2
+      MinSize: 2
+      VPCZoneIdentifier: !Ref MyElbSubnetIds
+
+  MyElb:
+    Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Properties:
+      Scheme: internet-facing
+      SecurityGroups: !Ref MyElbSgIds
+      Subnets: !Ref MyElbSubnetIds
+      Listeners:
+        - LoadBalancerPort: 80 
+          InstancePort: 80
+          Protocol: HTTP
+          InstanceProtocol: HTTP
+      HealthCheck:
+        Target: HTTP:80/index.php
+        HealthyThreshold: 2
+        Interval: 5
+        Timeout: 10
+        UnhealthyThreshold: 3
 
 Outputs:
-  MyRdsSgOutput:
-    Description: "RDS endpoint address"
-    Value: !GetAtt MyRdsDbInstance.Endpoint.Address
+  MyElbDomainNameOutput:
+    Description: "Elb domain name"
+    Value: !GetAtt MyElb.DNSName
