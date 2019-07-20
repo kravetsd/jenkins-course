@@ -1,0 +1,37 @@
+{
+"ContainerDefinitions": [
+    {
+      "Name": "jenkins-master",
+      "Image": "jenkins",
+      "MountPoints": [
+        {
+          "SourceVolume": "data-volume",
+          "ContainerPath": "/var/jenkins_home"
+        }
+      ],
+      "Essential": true,
+      "Cpu": 1024,
+      "MemoryReservation": 992,
+      "PortMappings": [
+        {
+          "HostPort": 8080,
+          "ContainerPort": 8080,
+          "Protocol": "tcp"
+        },
+        {
+          "HostPort": 50000,
+          "ContainerPort": 50000,
+          "Protocol": "tcp"
+        }
+      ]
+    }
+  ],
+  "Volumes": [
+    {
+      "Host": {
+        "SourcePath": "/data/"
+      },
+      "Name": "data-volume"
+    }
+  ]
+}
