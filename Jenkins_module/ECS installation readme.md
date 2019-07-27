@@ -515,3 +515,7 @@ https://docs.aws.amazon.com/AmazonECS/latest/developerguide/example_task_definit
     ]
 }
 
+
+
+Creation EFS and mounting it to EC2
+https://docs.aws.amazon.com/efs/latest/ug/wt1-create-efs-resources.html
