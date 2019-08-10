@@ -173,7 +173,7 @@ Hello World!root@ip-10-0-1-199:~#
 
 # 3.DSL jobs.
 ### 3.1 Install plugin "Job DSL"
-### 3.2 Create a parent job which is going to check your repos and create new jobs based on the code in those repos. Your parent [job code](\Jenkins_module\jenkins-course-master\job-dsl\nodejs.groovy)
+### 3.2 Create a parent job which is going to check your repos and create new jobs based on the code in those repos. Your parent [job code](Jenkins_module/jenkins-course-master/job-dsl/nodejs.groovy)
 ```
 job('NodeJS example') {
     scm {
