@@ -11,7 +11,7 @@ node {
     // …as above
     }
             // def newParamsList = [] 
-    mydockerrepo = docker.withDockerRegistry(registry [ url: "kdykrg/docker-nodejs-demo", credentialsId"docker-hub"])        
+    mydockerrepo = docker.withDockerRegistry(registry[url: "kdykrg/docker-nodejs-demo", credentialsId:"docker-hub"])        
     }
     stage('Test') { println("Hello stage2")
         // 
