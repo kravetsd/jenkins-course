@@ -1,4 +1,7 @@
-node {  
+node { 
+    def workspace = pwd()
+    echo "\u2600 workspace=${workspace}"
+    def newParamsList = [] 
     stage('Build') { println("Hello stage1")
         // 
     }
