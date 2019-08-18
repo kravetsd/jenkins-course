@@ -1,20 +1,11 @@
-pipeline {
-    agent any 
-    stages {
-        stage('Build') { 
-            steps { sh 'echo "Hello stage1"'
-                // 
-            }
-        }
-        stage('Test') { 
-            steps {sh 'echo "Hello stage2"'
-                // 
-            }
-        }
-        stage('Deploy') { 
-            steps { sh 'echo "Hello stage3"'
-                // 
-            }
-        }
+node {  
+    stage('Build') { println("Hello stage1")
+        // 
+    }
+    stage('Test') { println("Hello stage2")
+        // 
+    }
+    stage('Deploy') { println("Hello stage3")
+        // 
     }
 }
