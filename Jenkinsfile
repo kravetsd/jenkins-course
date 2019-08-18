@@ -2,7 +2,7 @@ node {
     stage('Test'){
     def workspace = pwd()
     echo "\u2600 workspace=${workspace}"
-    git [url:"https://github.com/kravetsd/docker-demo", bransh: "master"]
+    git url:"https://github.com/kravetsd/docker-demo", bransh: "master"
     def nodejs = docker.image('nodejs:latest')
     nodejs.pull() // make sure we have the latest available from Docker Hub
     nodejs.inside { 
