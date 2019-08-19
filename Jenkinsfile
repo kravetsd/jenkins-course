@@ -17,7 +17,7 @@ node {
     def registryUrl='https://registry.hub.docker.com'
     def registryCredentialsId = 'docker-hub'
     println("Hello stage2")
-    docker.withRegistry(url: registryUrl, credentialsId: registryCredentialsId ) {   
+    docker.withRegistry(registryUrl,registryCredentialsId ) {   
     println("I am in the method body!")
     docker.build("kdykrg/docker-nodejs-demo").push('latest')
      }
