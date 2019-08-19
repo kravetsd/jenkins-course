@@ -15,10 +15,9 @@ node {
     }
     stage('Test') {
     println("Hello stage2")
-    def mydockerrepo = withDockerRegistry(url: "https://hub.docker.com/r/kdykrg/docker-nodejs-demo", credentialsId: "docker-hub") {   
+    withDockerRegistry(url: "https://hub.docker.com/r/kdykrg/docker-nodejs-demo","docker-hub") {   
     println("I am in the method body!")
     docker.build("docker-nodejs-demo").push('latest')
-    
      }
 
     println(mydockerrepo)
