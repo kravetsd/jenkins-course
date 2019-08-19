@@ -36,11 +36,11 @@ node {
         // 
     }
     stage('delivery'){
-        withEnv(["PATH+ANSIBLE"=${tool 'ansible'}]){
+        withEnv(["PATH+ANSIBLE"=${tool 'ansible'}])
         tool('ansible')
         ansiblePlaybook( 
         playbook: 'playbook.yaml'
         )
-        }   
+        
     }
 }
