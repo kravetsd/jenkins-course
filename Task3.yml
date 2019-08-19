@@ -71,25 +71,3 @@ Resources:
     Properties:
       DBSubnetGroupDescription: "Existing public subnets"
       SubnetIds: !Ref MyRdsSubnetIds
-  
-  
-  MyRdsDbInstance:
-    Type: AWS::RDS::DBInstance
-    Properties:
-      AllocatedStorage: "8"
-      DBInstanceClass: !Ref MyRdsInstanceClass
-      DBName: "MyCftDb"
-      DBParameterGroupName: !Ref MyRdsDbParameterGroup
-      DBSubnetGroupName: !Ref MyRdsDbSubnetGroup
-      Engine: mysql
-      EngineVersion: "5.7" 
-      MasterUsername: !Ref MyRdsDatabaseUser
-      MasterUserPassword: !Ref MyRdsDatabasePassword
-      MultiAZ: false
-      PubliclyAccessible: true
-      VPCSecurityGroups: !Ref MyRdsSgIds
-
-Outputs:
-  MyRdsSgOutput:
-    Description: "RDS endpoint address"
-    Value: !GetAtt MyRdsDbInstance.Endpoint.Address

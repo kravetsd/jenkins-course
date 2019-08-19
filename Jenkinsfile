@@ -29,9 +29,15 @@ node {
     stage('Build infratsructure') { println("Hello stage3")
    withAWS(credentials:'awscredentials') {
        def outputs = cfnUpdate(stack:'my-db-stack', file:'Task3.yml', paramsFile:'parameters.json', keepParams:['Version'], timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
+    println(outputs)
     // do something
     }
     
         // 
     }
+    stage('delivery'){
+        ansiblePlaybook( 
+        playbook: 'playbook.yaml'
+        )
 }
+    }
