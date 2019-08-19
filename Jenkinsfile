@@ -1,5 +1,5 @@
 node { 
-    stage('Prepare'){
+    stage('Prepare') {
     def workspace = pwd()
     echo "\u2600 workspace=${workspace}"
     git (url:"https://github.com/kravetsd/docker-demo", branch: "master")
@@ -13,8 +13,9 @@ node {
             // def newParamsList = [] 
         
     }
-    stage('Test') { println("Hello stage2")
-    mydockerrepo = withDockerRegistry(url: "https://hub.docker.com/r/kdykrg/docker-nodejs-demo", credentialsId: "docker-hub");    
+    stage('Test') {
+    println("Hello stage2")
+    def mydockerrepo = withDockerRegistry(url: "https://hub.docker.com/r/kdykrg/docker-nodejs-demo", credentialsId: "docker-hub");    
     println(mydockerrepo.url)
     println("see you, stage 2 !!!")
         // 
