@@ -14,7 +14,7 @@ node {
         
     }
     stage('Test') { println("Hello stage2")
-    mydockerrepo = docker.withDockerRegistry("kdykrg/docker-nodejs-demo","docker-hub")    
+    mydockerrepo = docker.withDockerRegistry(url="kdykrg/docker-nodejs-demo",credentialsId="docker-hub")    
     println(mydockerrepo)
         // 
     }
