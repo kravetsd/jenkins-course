@@ -4,6 +4,8 @@ node {
     echo "\u2600 workspace=${workspace}"
     git (url:"https://github.com/kravetsd/docker-demo", branch: "master")
     def nodejs = docker.image('node:latest')
+    }
+    stage('Unit tests') {
     nodejs.pull() // make sure we have the latest available from Docker Hub
     nodejs.inside { 
         sh 'npm test'
@@ -13,7 +15,7 @@ node {
             // def newParamsList = [] 
         
     }
-    stage('Test') {
+    stage('Build') {
     def registryUrl='https://registry.hub.docker.com'
     def registryCredentialsId = 'docker-hub'
     println("Hello stage2")
