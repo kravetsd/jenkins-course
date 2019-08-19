@@ -22,7 +22,6 @@ node {
     docker.build("kdykrg/docker-nodejs-demo").push('latest')
      }
 
-    println(mydockerrepo)
         // 
     }
     stage('Deploy') { println("Hello stage3")
