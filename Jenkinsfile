@@ -17,8 +17,7 @@ node {
     println("Hello stage2")
     def mydockerrepo = withDockerRegistry(url: "https://hub.docker.com/r/kdykrg/docker-nodejs-demo", credentialsId: "docker-hub") {   
     println("I am in the method body!")
-    def img = docker.build()
-    img.push('latest')
+    def img = docker.build("kdykrg/docker-nodejs-demo").push('latest')
     
      }
 
