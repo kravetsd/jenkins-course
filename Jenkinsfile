@@ -36,10 +36,9 @@ node {
         // 
     }
     stage('delivery'){
-        withEnv(["PATH+ANSIBLE"=${tool 'ansible'}])
-        tool('ansible')
         ansiblePlaybook( 
-        playbook: 'playbook.yaml'
+        playbook: 'playbook.yaml',
+        installation: 'ansible'
         )
         
     }
