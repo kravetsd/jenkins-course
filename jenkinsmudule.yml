@@ -3,8 +3,8 @@ AWSTemplateFormatVersion: "2010-09-09"
 
 Parameters:
   ModulePrefix:
-  Type: String
-  Default: 'Jenkins-deployment'
+    Type: String
+    Default: 'Jenkins-deployment'
 
   MyEc2InstanceClass:
     Description: "EC2 instance class"
@@ -25,7 +25,7 @@ Parameters:
     Default: 10.11.1.0/24  
 
   MyEc2KeyPair:
-    Description: 
+    Description: "my key pair"
     Type: AWS::EC2::KeyPair::KeyName
     Default: "mp2019-keypair-y"
 
@@ -90,7 +90,7 @@ Resources:
     Properties:
       GroupName: ${ModulePrefix}-Sg-Admin 
       GroupDescription: "Karaganda EPAM office"
-      VpcId: !Ref MyVpcId
+      VpcId: !Ref MyVpc
   
   MyAdminSgIngress1:
     Type: AWS::EC2::SecurityGroupIngress
@@ -134,7 +134,7 @@ Resources:
       KeyName: !Ref MyEc2KeyPair
       SecurityGroupIds: 
         - !Ref MyAdminSg
-      SubnetId: !Ref MyCidrA
+      SubnetId: !Ref MySubnetA
       Tags:
         - Key: Name
           Value: ${ModulePrefix}-Ec2
