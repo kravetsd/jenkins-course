@@ -31,16 +31,18 @@ node {
    withAWS(credentials:'awscredentials') {
        def outputs = cfnUpdate(stack:'my-deployment', file:'jenkinsmudule.yml', timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
     println(outputs)
-    sh "echo ${outputs.Ec2Ip} >> host_vars/hosts"
+    sh "echo ${outputs.Ec2Ip} >> host_vars/hosts.ini"
+    sh "cat host_vars/hosts.ini"
     // do something
     }
     
         // 
     }
     stage('delivery'){
-        ansiblePlaybook( 
+        sh "ansiblePlaybook "
         playbook: 'playbook.yaml',
         installation: 'ansible'
+        inventory: 'host_vars/hosts.ini'
         )
         
     }
