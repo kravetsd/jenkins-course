@@ -47,21 +47,21 @@ Resources:
       EnableDnsSupport: true
       Tags:
         - Key: Name
-          Value: ${ModulePrefix}-Vpc
+          Value: !Sub ${ModulePrefix}-Vpc
   MyRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
       VpcId: !Ref MyVpc
       Tags:
         - Key: Name
-          Value: ${ModulePrefix}-Table
+          Value: !Sub ${ModulePrefix}-Table
 
   MyInternetGateway:
     Type: AWS::EC2::InternetGateway
     Properties:
       Tags:
         - Key: Name
-          Value: ${ModulePrefix}-Gateway
+          Value: !Sub ${ModulePrefix}-Gateway
 
   AttachGateway:
     Type: AWS::EC2::VPCGatewayAttachment
@@ -84,11 +84,11 @@ Resources:
       CidrBlock: !Ref MyCidrA
       Tags:
         - Key: Name
-          Value: ${ModulePrefix}-Subnet
+          Value: !Sub ${ModulePrefix}-Subnet
   MyAdminSg:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: ${ModulePrefix}-Sg-Admin 
+      GroupName: !Sub ${ModulePrefix}-Sg-Admin 
       GroupDescription: "Karaganda EPAM office"
       VpcId: !Ref MyVpc
   
@@ -137,7 +137,7 @@ Resources:
       SubnetId: !Ref MySubnetA
       Tags:
         - Key: Name
-          Value: ${ModulePrefix}-Ec2
+          Value: !Sub ${ModulePrefix}-Ec2
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
