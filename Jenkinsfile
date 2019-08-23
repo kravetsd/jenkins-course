@@ -31,7 +31,6 @@ node {
    withAWS(credentials:'awscredentials') {
        def outputs = cfnUpdate(stack:'my-deployment', file:'jenkinsmudule.yml', timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
     println(outputs)
-    sh "mkdir host_vars "
     sh "echo ${outputs.Ec2Ip} >> host_vars/hosts"
     // do something
     }
