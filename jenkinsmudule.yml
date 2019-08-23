@@ -148,6 +148,6 @@ Resources:
 
 
 Outputs:
-  MyElbDomainNameOutput:
+  Ec2Ip:
     Description: "Ec2 ip address"
     Value: !GetAtt MyEc2Instance.PublicIp
