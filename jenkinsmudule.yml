@@ -138,33 +138,16 @@ Resources:
       Tags:
         - Key: Name
           Value: ${ModulePrefix}-Ec2
-      UserData: 
-        Fn::Base64: 
-          !Join [
-            "",
-            [
-              "#!/bin/bash\n",
-              "yum -y install httpd php php-mysql\n",
-              "cat << EOF > /var/www/html/index.php\n",
-              "<?php\n",
-              "\\$servername = \"",
-              { "Ref": "MyRdsEndpointAddress" },
-              "\";\n",
-              "\\$username = \"",
-              { "Ref": "MyRdsDatabaseUser" },
-              "\";\n",
-              "\\$password = \"",
-              { "Ref": "MyRdsDatabasePassword" },
-              "\";\n",
-              "\\$hostname = gethostname();\n",
-              "\\$conn = new mysqli(\\$servername, \\$username, \\$password);\n",
-              "if (\\$conn->connect_error) {\n",
-              "  die(\"\\$hostname: connection failed (\" . \\$conn->connect_error . \")\");\n",
-              "}\n",
-              "echo \"\\$hostname: successfully connected to \\$servername\";\n",
-              "?>\n",
-              "EOF\n",
-              "systemctl start httpd\n",
-              "systemctl enable httpd\n"
-            ]
-          ]
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          cat << EOF >> ~/.ssh/authorized_keys
+          ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDH5Oy1sMvnG2ELaKyjYRbS1/8X4p9IEqkbMrZkio1W26lhkjvTH1Vu/e/vPGC7B4tMfMqUGdDWXpKVMO4FgMbg0SNXNKbTX32pdxp+uf2ovV3wsRaYvQfGjYraFVqrt9iwOizTVOSQQcTb6dNhox9TZleRNfyWa0nvYjgWWz68wgOg8Jn6AjaqzxsnJ21hFee8tDbxoDFfs6LswL8W2C1qLWEwCYb7/JL+oYJ6HJohY5QZH6ALbhFu57lUnavxNO8zw0NA5HvIkr01SbqvLNA4WxTpsiFT/P3iEZo1iXQVaq6g4WfEph0AlEaYcNBQghv4B5zt+CQDjme0nNu+SKwr mp2019-keypair-y
+          EOF
+
+
+Outputs:
+  MyElbDomainNameOutput:
+    Description: "Elb domain name"
+    Value: !GetAtt MyElb.DNSName
