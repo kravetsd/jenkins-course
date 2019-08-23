@@ -149,5 +149,5 @@ Resources:
 
 Outputs:
   MyElbDomainNameOutput:
-    Description: "Elb domain name"
-    Value: !GetAtt MyElb.DNSName
+    Description: "Ec2 ip address"
+    Value: !GetAtt MyEc2Instance.PublicIp
