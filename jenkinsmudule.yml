@@ -1,0 +1,170 @@
+AWSTemplateFormatVersion: "2010-09-09" 
+
+
+Parameters:
+  ModulePrefix:
+  Type: String
+  Default: 'Jenkins-deployment'
+
+  MyEc2InstanceClass:
+    Description: "EC2 instance class"
+    Type: String
+    Default: t2.micro
+    AllowedValues: 
+      - t2.micro
+      - t2.medium
+      - t2.small
+      - t2.large    
+  MyCidrVpc:
+    Description: CIDR block for VPC 
+    Type: String
+    Default: 10.11.0.0/16
+  MyCidrA:
+    Description: CIDR block for subnet A 
+    Type: String
+    Default: 10.11.1.0/24  
+
+  MyEc2KeyPair:
+    Description: 
+    Type: AWS::EC2::KeyPair::KeyName
+    Default: "mp2019-keypair-y"
+
+
+Mappings:
+  AWSRegion2AMI:
+    us-east-1:
+      AmazonLinux2AMI: ami-04681a1dbd79675a5
+    eu-central-1:
+      AmazonLinux2AMI: ami-0f5dbc86dd9cbf7a8
+
+
+Resources:
+  MyVpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref MyCidrVpc
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: ${ModulePrefix}-Vpc
+  MyRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MyVpc
+      Tags:
+        - Key: Name
+          Value: ${ModulePrefix}-Table
+
+  MyInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: ${ModulePrefix}-Gateway
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref MyVpc
+      InternetGatewayId: !Ref MyInternetGateway 
+  MyDefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MyRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref MyInternetGateway
+
+  MySubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: us-east-1a
+      VpcId: !Ref MyVpc
+      MapPublicIpOnLaunch: true
+      CidrBlock: !Ref MyCidrA
+      Tags:
+        - Key: Name
+          Value: ${ModulePrefix}-Subnet
+  MyAdminSg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: ${ModulePrefix}-Sg-Admin 
+      GroupDescription: "Karaganda EPAM office"
+      VpcId: !Ref MyVpcId
+  
+  MyAdminSgIngress1:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: 
+      CidrIp: 91.185.25.194/32
+      Description: "Epam Office Ip Range"
+      FromPort: 0
+      GroupId: !Ref MyAdminSg
+      IpProtocol: -1
+      ToPort: 65535 
+      
+  MyAdminSgIngress2:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: 
+      CidrIp: 82.200.249.238/30
+      Description: "Home Ip Range"
+      FromPort: 0
+      GroupId: !Ref MyAdminSg
+      IpProtocol: -1
+      ToPort: 65535
+
+  MyAdminSgIngress3:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: 
+      CidrIp: 0.0.0.0/0
+      Description: "HTTP From everywhere"
+      GroupId: !Ref MyAdminSg
+      FromPort: 80
+      IpProtocol: tcp
+      ToPort: 80
+
+  MyEc2Instance:
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId:
+        !FindInMap
+          - AWSRegion2AMI
+          - !Ref "AWS::Region"
+          - AmazonLinux2AMI
+      InstanceType: !Ref MyEc2InstanceClass
+      KeyName: !Ref MyEc2KeyPair
+      SecurityGroupIds: 
+        - !Ref MyAdminSg
+      SubnetId: !Ref MyCidrA
+      Tags:
+        - Key: Name
+          Value: ${ModulePrefix}-Ec2
+      UserData: 
+        Fn::Base64: 
+          !Join [
+            "",
+            [
+              "#!/bin/bash\n",
+              "yum -y install httpd php php-mysql\n",
+              "cat << EOF > /var/www/html/index.php\n",
+              "<?php\n",
+              "\\$servername = \"",
+              { "Ref": "MyRdsEndpointAddress" },
+              "\";\n",
+              "\\$username = \"",
+              { "Ref": "MyRdsDatabaseUser" },
+              "\";\n",
+              "\\$password = \"",
+              { "Ref": "MyRdsDatabasePassword" },
+              "\";\n",
+              "\\$hostname = gethostname();\n",
+              "\\$conn = new mysqli(\\$servername, \\$username, \\$password);\n",
+              "if (\\$conn->connect_error) {\n",
+              "  die(\"\\$hostname: connection failed (\" . \\$conn->connect_error . \")\");\n",
+              "}\n",
+              "echo \"\\$hostname: successfully connected to \\$servername\";\n",
+              "?>\n",
+              "EOF\n",
+              "systemctl start httpd\n",
+              "systemctl enable httpd\n"
+            ]
+          ]
