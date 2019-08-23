@@ -39,9 +39,10 @@ node {
         // 
     }
     stage('delivery'){
+        ansiblePlaybook( 
         playbook: 'playbook.yaml',
         installation: 'ansible',
-        inventory: 'host_vars/hosts.ini'
+        inventory:'host_vars/hosts.ini'
         )
         
     }
