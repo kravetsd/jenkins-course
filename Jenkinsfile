@@ -52,6 +52,7 @@ node {
         playbook: 'playbook.yaml',
         installation: 'ansible',
         credentialsId : 'ansible-key',
+        disableHostKeyChecking: true,
         inventoryContent: "${hostip}"
         )
         
