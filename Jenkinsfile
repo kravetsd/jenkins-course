@@ -4,7 +4,8 @@ node {
     cleanWs() 
     stage('Prepare') {
     def wspace = pwd()
-    masterIp = sh "curl icanhazip.com"
+    def masterIp = sh "curl icanhazip.com"
+    sh "echo '${masterIp}"
     echo "\u2600 workspace=${wspace}"
     git (url:"https://github.com/kravetsd/docker-demo", branch: "master")
     }
@@ -31,10 +32,10 @@ node {
         // 
     }
     stage('Build infratsructure') {
-   println ("Passign params: '${masterIp}'")
+   println ("Passign params: ${masterIp}")
    println("Hello stage3")
    withAWS(credentials:'awscredentials') {
-       def outputs = cfnUpdate(stack:'my-deployment', file:'jenkinsmudule.yml',params:["JenkinsMasterIp='${masterIp}'"],  timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
+       def outputs = cfnUpdate(stack:'my-deployment', file:'jenkinsmudule.yml',params:["JenkinsMasterIp=${masterIp}"],  timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
     println(outputs)
     hostip = outputs.Ec2Ip
     sh "echo ${outputs.Ec2Ip} >> host_vars/hosts"
