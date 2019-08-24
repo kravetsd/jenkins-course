@@ -13,7 +13,7 @@ node {
         stage('Prepareation') {
         def wspace = pwd()
         masterIp = sh(script: "curl 169.254.169.254/latest/meta-data/public-ipv4").trim()
-        git (url: codeRepo, branch: "master")
+        git(url:"${codeRepo}", branch: "master")
         }
         stage('Unit tests') {
         def nodejs = docker.image('node:latest')
