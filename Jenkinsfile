@@ -35,6 +35,7 @@ node {
     hostip = outputs.Ec2Ip
     sh "echo ${outputs.Ec2Ip} >> host_vars/hosts"
     sh "cat host_vars/hosts"
+    sh "cat playbook.yaml"
     // do something
     }
     
