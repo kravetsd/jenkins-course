@@ -4,7 +4,7 @@ node {
     stage('Prepare') {
     def wspace = pwd()
     def masterIp = sh "curl icanhazip.com"
-    sh "echo '${masterIp}"
+    sh "echo ${masterIp}"
     echo "\u2600 workspace=${wspace}"
     git (url:"https://github.com/kravetsd/docker-demo", branch: "master")
     }
