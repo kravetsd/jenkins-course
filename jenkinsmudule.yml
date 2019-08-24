@@ -124,6 +124,16 @@ Resources:
       IpProtocol: tcp
       ToPort: 80
 
+  MyAdminSgIngress1:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: 
+      CidrIp: !Sub  ${JenkinsMasterIp}/32
+      Description: "Epam Office Ip Range"
+      FromPort: 0
+      GroupId: !Ref MyAdminSg
+      IpProtocol: -1
+      ToPort: 65535 
+
   MyEc2Instance:
     Type: AWS::EC2::Instance
     Properties: 
