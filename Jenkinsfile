@@ -42,8 +42,8 @@ node {
 
         }
         stage('e2e test'){
-            println("checking if your application is available with link: http:///'${hostIp}'")
-            sh(returnStdout: true, script: "curl -L '${hostIp}' -o outputfile | cat outputfile" )
+            println("checking if your application is available with link: http://${hostIp}")
+            sh(returnStdout: true, script: "curl -L http://${hostIp} -o outputfile | cat outputfile" )
         }
     }
 }
