@@ -4,7 +4,7 @@ node {
         def String masterIp
         def String registryUrl='https://registry.hub.docker.com'
         def String registryCredentialsId = 'docker-hub'
-        def String cfStackName
+        def String cfStackName = "Jenkins-mp2019"
 
         cleanWs() 
         stage('Prepareation') {
@@ -35,7 +35,6 @@ node {
             ansiblePlaybook( 
             playbook: 'playbook.yaml',
             installation: 'ansible',
-            lock_timeout: 30,
             credentialsId : 'ansible-key',
             disableHostKeyChecking: true,
             inventoryContent: "${hostIp}"
