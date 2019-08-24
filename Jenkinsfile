@@ -1,9 +1,10 @@
 node {
     wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'gnome-terminal']) {
-        def String hostip
+        def String hostIp
         def String masterIp
         def String registryUrl='https://registry.hub.docker.com'
         def String registryCredentialsId = 'docker-hub'
+        def String cfStackName
 
         cleanWs() 
         stage('Prepareation') {
@@ -26,20 +27,24 @@ node {
         }
         stage('Build infratsructure') {
         withAWS(credentials:'awscredentials') {
-            def outputs = cfnUpdate(stack:'my-deployment', file:'jenkinsmudule.yml',params:["JenkinsMasterIp=${masterIp}"],  timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
-            hostip = outputs.Ec2Ip
+            def outputs = cfnUpdate(stack: ${stackName}, file:'jenkinsmudule.yml',params:["JenkinsMasterIp=${masterIp}"],  timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
+            hostIp = outputs.Ec2Ip
         }
         }
-        stage('delivery'){
+        stage('Delivery'){
             ansiblePlaybook( 
             playbook: 'playbook.yaml',
             installation: 'ansible',
             lock_timeout: 30,
             credentialsId : 'ansible-key',
             disableHostKeyChecking: true,
-            inventoryContent: "${hostip}"
+            inventoryContent: "${hostIp}"
             )
 
+        }
+        stage('e2e test'){
+            printl("checking if your application is available with link: http://'${hostIp}'")
+            sh(returnStdout: true, script: "curl '${hostIp}'" )
         }
     }
 }
