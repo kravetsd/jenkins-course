@@ -1,4 +1,5 @@
 node {
+    def String hostip
     cleanWs() 
     stage('Prepare') {
     def wspace = pwd()
@@ -31,6 +32,7 @@ node {
    withAWS(credentials:'awscredentials') {
        def outputs = cfnUpdate(stack:'my-deployment', file:'jenkinsmudule.yml', timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
     println(outputs)
+    hostip = outputs.Ec2Ip
     sh "echo ${outputs.Ec2Ip} >> host_vars/hosts"
     sh "cat host_vars/hosts"
     // do something
@@ -42,7 +44,7 @@ node {
         ansiblePlaybook( 
         playbook: 'playbook.yaml',
         installation: 'ansible',
-        inventoryContent: outputs.Ec2Ip
+        inventoryContent: "${hostip}"
         )
         
     }
