@@ -125,7 +125,7 @@ Resources:
       IpProtocol: tcp
       ToPort: 80
 
-  MyAdminSgIngress1:
+  MyAdminSgIngress4:
     Type: AWS::EC2::SecurityGroupIngress
     Properties: 
       CidrIp: !Sub  ${JenkinsMasterIp}/32
