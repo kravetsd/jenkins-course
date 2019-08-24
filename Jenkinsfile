@@ -27,7 +27,7 @@ node {
         }
         stage('Build infratsructure') {
         withAWS(credentials:'awscredentials') {
-            def outputs = cfnUpdate(stack: ${stackName}, file:'jenkinsmudule.yml',params:["JenkinsMasterIp=${masterIp}"],  timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
+            def outputs = cfnUpdate(stack: "${cfStackName}", file:'jenkinsmudule.yml',params:["JenkinsMasterIp=${masterIp}"],  timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
             hostIp = outputs.Ec2Ip
         }
         }
