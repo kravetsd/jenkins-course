@@ -42,7 +42,7 @@ node {
         ansiblePlaybook( 
         playbook: 'playbook.yaml',
         installation: 'ansible',
-        inventory:'host_vars/hosts'
+        inventoryContent: ${outputs.Ec2Ip}
         )
         
     }
