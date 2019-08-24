@@ -4,7 +4,7 @@ node {
     cleanWs() 
     stage('Prepare') {
     def wspace = pwd()
-    masterIp = sh(returnStdout: true, script: "curl icanhazip.com").trim()
+    masterIp = sh(returnStdout: true, script: "curl 169.254.169.254/latest/meta-data/public-ipv4").trim()
     sh "echo ${masterIp}"
     echo "\u2600 workspace=${wspace}"
     git (url:"https://github.com/kravetsd/docker-demo", branch: "master")
