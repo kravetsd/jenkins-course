@@ -44,7 +44,8 @@ node {
         stage('e2e test'){
             println("checking if your application is available with link: http://${hostIp}")
             sleep(10)
-            sh(returnStdout: true, script: "curl ${hostIp}" )
+            def result = sh(script: "curl ${hostIp}" )
+            println(result)
         }
     }
 }
