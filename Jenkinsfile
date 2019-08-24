@@ -45,6 +45,7 @@ node {
         ansiblePlaybook( 
         playbook: 'playbook.yaml',
         installation: 'ansible',
+        credentialsId : 'ansible-key'
         inventoryContent: "${hostip}"
         )
         
