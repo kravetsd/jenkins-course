@@ -42,7 +42,7 @@ node {
         ansiblePlaybook( 
         playbook: 'playbook.yaml',
         installation: 'ansible',
-        inventoryContent: ${outputs.Ec2Ip}
+        inventoryContent: outputs.Ec2Ip
         )
         
     }
