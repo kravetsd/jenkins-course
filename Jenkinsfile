@@ -51,6 +51,7 @@ node {
         ansiblePlaybook( 
         playbook: 'playbook.yaml',
         installation: 'ansible',
+        lock_timeout: 30,
         credentialsId : 'ansible-key',
         disableHostKeyChecking: true,
         inventoryContent: "${hostip}"
