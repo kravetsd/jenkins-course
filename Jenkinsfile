@@ -6,12 +6,14 @@ node {
         def String registryCredentialsId = 'docker-hub'
         def String cfStackName = "Jenkins-mp2019"
         def String result
+        def String dockerRepo = "kdykrg/docker-nodejs-demo"
+        def String codeRepo = "https://github.com/kravetsd/docker-demo"
 
         cleanWs() 
         stage('Prepareation') {
         def wspace = pwd()
-        masterIp = sh(returnStdout: true, script: "curl 169.254.169.254/latest/meta-data/public-ipv4").trim()
-        git (url:"https://github.com/kravetsd/docker-demo", branch: "master")
+        masterIp = sh(script: "curl 169.254.169.254/latest/meta-data/public-ipv4").trim()
+        git (url: codeRepo, branch: "master")
         }
         stage('Unit tests') {
         def nodejs = docker.image('node:latest')
@@ -23,7 +25,7 @@ node {
         }
         stage('Build') {
         docker.withRegistry(registryUrl,registryCredentialsId ) {
-            docker.build("kdykrg/docker-nodejs-demo").push('latest')
+            docker.build(dockerRepo).push('latest')
          }
         }
         stage('Build infratsructure') {
@@ -43,10 +45,9 @@ node {
 
         }
         stage('e2e test'){
-            println("checking if your application is available with link: http://${hostIp}")
             sleep(10)
-            result = sh(script: "curl ${hostIp}" )
-            println(result)
+            sh(script: "curl ${hostIp}" )
+            println("Your application is available via link: http://${hostIp}")
         }
     }
 }
