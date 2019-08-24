@@ -1,6 +1,5 @@
 node {
     def String hostip
-    def String masterIp
     cleanWs() 
     stage('Prepare') {
     def wspace = pwd()
