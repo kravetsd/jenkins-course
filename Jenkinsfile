@@ -11,7 +11,7 @@ node {
         cleanWs() 
         stage('Prepareation') {
         def wspace = pwd()
-        masterIp = sh(script: "curl 169.254.169.254/latest/meta-data/public-ipv4").trim()
+        masterIp = sh("curl 169.254.169.254/latest/meta-data/public-ipv4").trim()
         git (url:"https://github.com/kravetsd/docker-demo", branch: "master")
         }
         stage('Unit tests') {
