@@ -32,6 +32,7 @@ node {
     }
     stage('Build infratsructure') {
    println("Hello stage3")
+   sh "echo '${masterIp}'"
    withAWS(credentials:'awscredentials') {
        sh "echo ${masterIp}"
        def outputs = cfnUpdate(stack:'my-deployment', file:'jenkinsmudule.yml',params:["JenkinsMasterIp=34.228.167.90"],  timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
