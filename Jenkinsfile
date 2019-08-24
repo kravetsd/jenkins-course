@@ -36,7 +36,7 @@ node {
    sh "echo '${masterIp}'"
    withAWS(credentials:'awscredentials') {
        sh "echo ${masterIp}"
-       def outputs = cfnUpdate(stack:'my-deployment', file:'jenkinsmudule.yml',params:["JenkinsMasterIp=34.228.167.90"],  timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
+       def outputs = cfnUpdate(stack:'my-deployment', file:'jenkinsmudule.yml',params:["JenkinsMasterIp=${masterIp}"],  timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
     println(outputs)
     hostip = outputs.Ec2Ip
     sh "echo ${outputs.Ec2Ip} >> host_vars/hosts"
