@@ -5,6 +5,7 @@ node {
         def String registryUrl='https://registry.hub.docker.com'
         def String registryCredentialsId = 'docker-hub'
         def String cfStackName = "Jenkins-mp2019"
+        def String result
 
         cleanWs() 
         stage('Prepareation') {
