@@ -8,6 +8,7 @@ node {
         def String result
         def String dockerRepo = "kdykrg/docker-nodejs-demo"
         def String codeRepo = "https://github.com/kravetsd/docker-demo"
+        def String cdRepo = "https://github.com/kravetsd/jenkins-course"
 
         cleanWs() 
         stage('Prepareation') {
@@ -29,7 +30,9 @@ node {
          }
         }
         stage('Build infratsructure') {
-        withAWS(credentials:'awscredentials') {
+            cleanWs()
+            git(url: cdRepo, branch: "master")
+            withAWS(credentials:'awscredentials') {
             def outputs = cfnUpdate(stack: "${cfStackName}", file:'jenkinsmudule.yml',params:["JenkinsMasterIp=${masterIp}"],  timeoutInMinutes:10, tags:['Builder=Jenkins'], pollInterval:1000)
             hostIp = outputs.Ec2Ip
         }

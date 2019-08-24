@@ -1,0 +1,72 @@
+---
+  - name: Playbook
+    hosts: all
+    become: yes
+    become_user: root
+    tasks:
+      - name: download get-pip.py
+        get_url: url=https://bootstrap.pypa.io/get-pip.py  dest=/tmp
+      - name: install pip
+        command: "python /tmp/get-pip.py"
+      - name: delete get-pip.py 
+        file: state=absent path=/tmp/get-pip.py
+      - name: install docekr-py
+        pip:
+          name: docker-py>=1.7.0
+      - name: Install yum utils
+        yum:
+          name: yum-utils
+          state: latest
+          lock_timeout: 120
+      - name: Remove docker if installed from CentOS repo
+        yum:
+          name:
+              - docker
+              - docker-client
+              - docker-client-latest
+              - docker-common
+              - docker-latest
+              - docker-latest-logrotate
+              - docker-logrotate
+              - docker-engine
+          state: removed
+          lock_timeout: 120
+      - name: Update all packages
+        yum:
+          name: '*'
+          state: latest
+          update_only: yes
+          lock_timeout: 120
+
+      - name: Ensure a list of yum packages are installed
+        yum:
+          name: "{{ packages }}"
+          state: latest
+          update_cache: yes
+          lock_timeout: 120
+        vars:
+          packages:
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+          - amazon-linux-extras
+
+      - name: Add extras repository
+        shell: yum-config-manager --enable extras
+
+      - name: Install docker-ce (centos) via amazon-linux-extras packages
+        shell: "amazon-linux-extras install docker=18.06.1 -y"
+
+      - name: Enable Docker CE service at startup
+        service:
+          name: docker
+          state: started
+          enabled: yes
+      - name: application container
+        docker_container :
+          name: myapplication
+          image: kdykrg/docker-nodejs-demo
+          state: started
+          pull: true
+          ports:
+          - "80:3000"
