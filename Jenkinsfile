@@ -44,6 +44,7 @@ node {
             installation: 'ansible',
             credentialsId : 'ansible-key',
             disableHostKeyChecking: true,
+            extraVars: "tag=${BUILD_NUMBER}"
             inventoryContent: "${hostIp}"
             )
 
