@@ -11,7 +11,7 @@ node {
         def String cdRepo = "https://github.com/kravetsd/jenkins-course"
 
         cleanWs() 
-        stage('Prepareation') {
+        stage('Preparation') {
         def wspace = pwd()
         masterIp = sh(returnStdout: true, script: "curl 169.254.169.254/latest/meta-data/public-ipv4").trim()
         git(url:codeRepo, branch: "master")
