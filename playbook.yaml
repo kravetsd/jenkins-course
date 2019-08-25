@@ -65,7 +65,7 @@
       - name: application container
         docker_container :
           name: myapplication
-          image: kdykrg/docker-nodejs-demo
+          image: kdykrg/docker-nodejs-demo:{{tag}}
           state: started
           pull: true
           ports:
