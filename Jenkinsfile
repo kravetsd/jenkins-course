@@ -27,7 +27,7 @@ node {
         }
         stage('Build') {
         docker.withRegistry(registryUrl,registryCredentialsId ) {
-            docker.build(dockerRepo).push('latest')
+            docker.build("${dockerRepo}:${BUILD_NUMBER}",'.').push()
          }
         }
         stage('Build infratsructure') {
