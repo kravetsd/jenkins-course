@@ -1,6 +1,7 @@
 node {
     wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'gnome-terminal']) {
         def String hostIp
+        def String gitBranch = branch
         def String masterIp
         def String registryUrl='https://registry.hub.docker.com'
         def String registryCredentialsId = 'docker-hub'
@@ -14,7 +15,7 @@ node {
         stage('Preparation') {
         def wspace = pwd()
         masterIp = sh(returnStdout: true, script: "curl 169.254.169.254/latest/meta-data/public-ipv4").trim()
-        git(url:codeRepo, branch: "master")
+        git(url:codeRepo, branch: gitBranch)
         }
         stage('Unit tests') {
         def nodejs = docker.image('node:latest')
